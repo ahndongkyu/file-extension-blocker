@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const extensionController = require('../controllers/extensionController');
+const controller = require('../controllers/extensionController');
 
-router.get('/', extensionController.getAllExtensions);
+router.get('/', controller.getAllExtensions);
+router.post('/custom', controller.addCustomExtension);
 
 module.exports = router;
