@@ -96,21 +96,48 @@ p {
   cursor: pointer;
 }
 
-.section textarea {
-  width: 100%;
-  min-height: 80px;
-  padding: 8px;
-  font-size: 14px;
-  border-radius: 6px;
-  border: 1px solid #555;
-  resize: vertical;
-  margin-top: 8px;
-  background-color: #fff;
-}
-
 .custom-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 10px;
+}
+
+.message {
+  background-color: #f0f9ff;
+  border: 1px solid #87cefa;
+  color: #333;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.message-placeholder {
+  height: 40px; /* 메시지 높이에 맞게 조정 */
+  margin-bottom: 20px;
+}
+
+.upload-list {
+  margin-top: 10px;
+  list-style: none;
+  padding: 0;
+}
+
+.upload-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #eee;
+  margin-bottom: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+.upload-list button {
+  background: none;
+  border: none;
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
 }
