@@ -56,3 +56,50 @@ exports.updateFixedExtensions = async (req, res) => {
     res.status(500).json({ message: '❌ 서버 오류' });
   }
 };
+
+exports.getFixedExtensions = async (req, res) => {
+  try {
+    const result = await db.query('SELECT * FROM fixed_extensions ORDER BY id');
+    res.status(200).json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: '서버 오류' });
+  }
+};
+
+exports.deleteCustomExtension = async (req, res) => {
+  const { extension } = req.params;
+  try {
+    await db.query('DELETE FROM custom_extensions WHERE extension = $1', [
+      extension,
+    ]);
+    res.status(200).json({ message: '삭제 완료' });
+  } catch (err) {
+    console.error('❌ 커스텀 삭제 실패:', err);
+    res.status(500).json({ error: '서버 에러' });
+  }
+};
+
+const handleFileUpload = (e) => {
+  const files = Array.from(e.target.files);
+  const allBlocked = [...selectedFixed, ...customTags].map((ext) =>
+    ext.toLowerCase()
+  );
+
+  const blockedFiles = files.filter((file) => {
+    const ext = file.name.split('.').pop().toLowerCase();
+    return allBlocked.includes(ext);
+  });
+
+  if (blockedFiles.length > 0) {
+    alert(
+      `❌ 차단된 확장자 파일이 포함되어 있습니다: ${blockedFiles
+        .map((f) => f.name)
+        .join(', ')}`
+    );
+    return;
+  }
+
+  alert(`✅ ${files.length}개의 파일 업로드 준비 완료`);
+  // 실제 업로드 처리 로직 추가 가능
+};

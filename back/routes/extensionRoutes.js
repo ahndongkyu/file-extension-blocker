@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/extensionController');
+const extensionController = require('../controllers/extensionController');
 
-router.get('/', controller.getAllExtensions);
-router.post('/custom', controller.addCustomExtension);
-router.patch('/fixed', controller.updateFixedExtensions); // ✅ 추가
+router.get('/', extensionController.getAllExtensions);
+router.post('/custom', extensionController.addCustomExtension);
+router.patch('/fixed', extensionController.updateFixedExtensions);
+router.get('/fixed', extensionController.getFixedExtensions);
+router.delete('/custom/:extension', extensionController.deleteCustomExtension);
 
 module.exports = router;
