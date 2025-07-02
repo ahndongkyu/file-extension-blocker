@@ -79,27 +79,3 @@ exports.deleteCustomExtension = async (req, res) => {
     res.status(500).json({ error: '서버 에러' });
   }
 };
-
-const handleFileUpload = (e) => {
-  const files = Array.from(e.target.files);
-  const allBlocked = [...selectedFixed, ...customTags].map((ext) =>
-    ext.toLowerCase()
-  );
-
-  const blockedFiles = files.filter((file) => {
-    const ext = file.name.split('.').pop().toLowerCase();
-    return allBlocked.includes(ext);
-  });
-
-  if (blockedFiles.length > 0) {
-    alert(
-      `❌ 차단된 확장자 파일이 포함되어 있습니다: ${blockedFiles
-        .map((f) => f.name)
-        .join(', ')}`
-    );
-    return;
-  }
-
-  alert(`✅ ${files.length}개의 파일 업로드 준비 완료`);
-  // 실제 업로드 처리 로직 추가 가능
-};
