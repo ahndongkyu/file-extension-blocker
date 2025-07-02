@@ -1,29 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import axios from 'axios';
 
 function App() {
-  const fixedExtensions = ['bat', 'cmd', 'com', 'cpl', 'exe', 'scr', 'js'];
+  const [fixedExtensions, setFixedExtensions] = useState([]); // 서버에서 받아옴
   const [selectedFixed, setSelectedFixed] = useState([]);
   const [customInput, setCustomInput] = useState('');
   const [customTags, setCustomTags] = useState([]);
   const [note, setNote] = useState('');
 
+  // ✅ 서버에서 확장자 데이터 불러오기
+  useEffect(() => {
+    axios
+      .get('http://localhost:8000/extensions')
+      .then((res) => {
+        const fixed = res.data.fixed;
+        setFixedExtensions(fixed);
+        const checkedList = fixed
+          .filter((ext) => ext.checked)
+          .map((ext) => ext.extension);
+        setSelectedFixed(checkedList);
+
+        setCustomTags(res.data.custom.map((e) => e.extension));
+      })
+      .catch((err) => console.error('❌ 확장자 불러오기 실패:', err));
+  }, []);
+
+  // ✅ 체크박스 상태 변경
   const handleCheckboxChange = (ext) => {
-    setSelectedFixed((prev) =>
-      prev.includes(ext) ? prev.filter((e) => e !== ext) : [...prev, ext]
-    );
+    const updated = selectedFixed.includes(ext)
+      ? selectedFixed.filter((e) => e !== ext)
+      : [...selectedFixed, ext];
+    setSelectedFixed(updated);
+
+    // 서버에 변경사항 PATCH로 전송
+    axios
+      .patch('http://localhost:8000/extensions/fixed', { selected: updated })
+      .then((res) => console.log(res.data))
+      .catch((err) => console.error('❌ 상태 저장 실패:', err));
   };
 
   const handleAddCustom = () => {
     const trimmed = customInput.trim();
     if (trimmed && !customTags.includes(trimmed)) {
-      setCustomTags((prev) => [...prev, trimmed]);
-      setCustomInput('');
+      axios
+        .post('http://localhost:8000/extensions/custom', { extension: trimmed })
+        .then(() => {
+          setCustomTags((prev) => [...prev, trimmed]);
+          setCustomInput('');
+        })
+        .catch((err) => console.error('❌ 커스텀 추가 실패:', err));
     }
   };
 
   const handleDeleteTag = (ext) => {
-    setCustomTags((prev) => prev.filter((e) => e !== ext));
+    axios
+      .delete(`http://localhost:8000/extensions/custom/${ext}`)
+      .then(() => {
+        setCustomTags((prev) => prev.filter((e) => e !== ext));
+      })
+      .catch((err) => console.error('❌ 커스텀 삭제 실패:', err));
   };
 
   const handleSubmit = () => {
@@ -33,7 +69,7 @@ function App() {
       note,
     };
     console.log('🚀 전송할 데이터:', payload);
-    // TODO: axios.post('/api/submit', payload)
+    // axios.post('/api/submit', payload)
   };
 
   return (
@@ -44,13 +80,13 @@ function App() {
         <label className='label'>고정 확장자</label>
         <div className='fixed-list'>
           {fixedExtensions.map((ext) => (
-            <label className='checkbox' key={ext}>
+            <label className='checkbox' key={ext.id}>
               <input
                 type='checkbox'
-                checked={selectedFixed.includes(ext)}
-                onChange={() => handleCheckboxChange(ext)}
+                checked={selectedFixed.includes(ext.extension)}
+                onChange={() => handleCheckboxChange(ext.extension)}
               />
-              {ext}
+              {ext.extension}
             </label>
           ))}
         </div>
@@ -64,6 +100,7 @@ function App() {
             value={customInput}
             onChange={(e) => setCustomInput(e.target.value)}
             placeholder='확장자 입력'
+            maxLength={20}
           />
           <button onClick={handleAddCustom}>+추가</button>
         </div>

@@ -30,3 +30,29 @@ exports.addCustomExtension = async (req, res) => {
     res.status(500).json({ message: '서버 오류' });
   }
 };
+
+exports.updateFixedExtensions = async (req, res) => {
+  const { selected } = req.body;
+
+  if (!Array.isArray(selected)) {
+    return res.status(400).json({ message: 'selected는 배열이어야 합니다.' });
+  }
+
+  try {
+    // 모두 false로 초기화
+    await db.query('UPDATE fixed_extensions SET checked = false');
+
+    // 선택된 확장자만 true로 설정
+    for (const ext of selected) {
+      await db.query(
+        'UPDATE fixed_extensions SET checked = true WHERE extension = $1',
+        [ext]
+      );
+    }
+
+    res.status(200).json({ message: '✅ 상태 저장 완료' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: '❌ 서버 오류' });
+  }
+};

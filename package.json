@@ -1,0 +1,13 @@
+{
+  "name": "file-extension-blocker-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd back && npm run dev",
+    "client": "cd front && npm start"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  }
+}
