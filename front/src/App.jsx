@@ -14,7 +14,7 @@ function App() {
   const [isLogModalOpen, setIsLogModalOpen] = useState(false);
   const fileInputRef = useRef();
 
-  // 파일명 길이 자르기
+  // 파일명 길이 제한
   const shortenFilename = (name, max = 30) => {
     return name.length > max ? `${name.slice(0, max)}...` : name;
   };
@@ -30,7 +30,7 @@ function App() {
     return `${yy}.${mm}.${dd} ${hh}:${mi}`;
   };
 
-  // 초기 확장자 목록 로딩
+  // 초기 확장자 목록
   useEffect(() => {
     axios
       .get('http://localhost:8000/extensions')
@@ -122,7 +122,7 @@ function App() {
       .catch(() => console.error('커스텀 삭제 실패'));
   };
 
-  // 업로드 파일 변경 시 실행 (차단 여부 확인 + 로그 기록)
+  // 업로드 파일 변경 시 실행
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
     const newLogs = [];
