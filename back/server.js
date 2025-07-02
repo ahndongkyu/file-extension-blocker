@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config({ path: '../.env' }); // 루트 디렉토리의 .env 파일 로드
+// require('dotenv').config({ path: '../.env' }); // 루트 디렉토리의 .env 파일 로드
+require('dotenv').config(); // ✅ 경로 지정 없이 기본 사용
 
 const extensionRouter = require('./routes/extensionRoutes');
 
