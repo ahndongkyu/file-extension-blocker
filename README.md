@@ -20,11 +20,41 @@
   - 업로드 시도 결과(파일명, 확장자, 차단 여부, 시간)를 로그로 저장
   - 브라우저 LocalStorage에 저장되어 새로고침 후에도 유지
   - **모달창에서 테이블 형태로 확인 가능**
+  
+  ## 폴더 구조
+
+```
+file-extension-blocker/
+├── back/
+│   ├── controllers/
+│   │   └── extensionController.js
+│   ├── db/
+│   │   └── index.js
+│   ├── routes/
+│   │   └── extensionRoutes.js
+│   ├── server.js
+│   └── .env
+│
+├── front/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Modal.css
+│   │   │   └── Modal.js
+│   │   ├── App.css
+│   │   ├── App.jsx
+│   │   └── index.js
+│   ├── .env
+│   └── README.md
+```
 
 ## UI 구성
 
 - React 기반
-- 클릭으로 다중 파일 선택
+- 클릭으로 다중 파일 선택 가능
+- 반응형 모달창
+- 페이지네이션 적용
+- 버튼 및 테이블 UI 고정 처리
 
 ## 기술 스택
 
@@ -32,7 +62,14 @@
 - **Backend**: Node.js (Express), PostgreSQL
 - **기타**: LocalStorage, RESTful API, React Portal
 
-## 실행 방법
+# 실행 방법
+
+```bash
+# 루트 폴더에서 프론트/백 동시 실행 (포트 충돌 없을 경우)
+cd back && npm install && npm start & cd ../front && npm install && npm start
+```
+
+또는 아래처럼 각각 실행 가능:
 
 ```bash
 # 백엔드 실행
@@ -44,11 +81,19 @@ npm start
 cd front
 npm install
 npm start
+```
 
+## 환경 변수 설정
 
+프론트엔드 `.env` 파일에 아래와 같이 API 서버 주소 설정:
+
+```
 # 로컬 개발용
 REACT_APP_API_URL=http://localhost:8000
 
-배포 주소
-	•	프론트엔드: https://file-extension-blocker-front.onrender.com
-	•	백엔드: https://file-extension-back.onrender.com
+```
+
+## 배포 주소
+
+- **프론트엔드**: https://file-extension-blocker-front.onrender.com  
+- **백엔드**: https://file-extension-back.onrender.com
