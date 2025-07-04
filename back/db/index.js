@@ -1,6 +1,5 @@
 const { Pool } = require('pg');
-// require('dotenv').config({ path: '../.env' }); // 루트의 .env 파일에서 DB 환경 변수 로드
-require('dotenv').config(); // back/.env 자동 로드
+require('dotenv').config();
 
 // PostgreSQL 연결 풀 생성
 const pool = new Pool({

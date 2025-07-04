@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-// require('dotenv').config({ path: '../.env' }); // 루트 디렉토리의 .env 파일 로드
-require('dotenv').config(); // ✅ 경로 지정 없이 기본 사용
+require('dotenv').config();
 
 const extensionRouter = require('./routes/extensionRoutes');
 
@@ -22,5 +21,5 @@ app.get('/', (req, res) => {
 
 // 서버 시작
 app.listen(PORT, () => {
-  console.log(`서버 실행됨: http://localhost:${PORT}`);
+  console.log(`서버 실행됨`);
 });
