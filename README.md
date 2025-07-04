@@ -19,7 +19,6 @@
 - **업로드 시도 로그 기록**
   - 업로드 시도 결과(파일명, 확장자, 차단 여부, 시간)를 로그로 저장
   - 브라우저 LocalStorage에 저장되어 새로고침 후에도 유지
-  - **모달창에서 테이블 형태로 확인 가능**
   
   ## 폴더 구조
 
@@ -51,16 +50,14 @@ file-extension-blocker/
 ## UI 구성
 
 - React 기반
-- 클릭으로 다중 파일 선택 가능
+- 클릭으로 파일 선택 가능
 - 반응형 모달창
-- 페이지네이션 적용
-- 버튼 및 테이블 UI 고정 처리
 
 ## 기술 스택
 
 - **Frontend**: React, Axios, CSS
 - **Backend**: Node.js (Express), PostgreSQL
-- **기타**: LocalStorage, RESTful API, React Portal
+- **기타**: LocalStorage, RESTful API
 
 # 실행 방법
 
