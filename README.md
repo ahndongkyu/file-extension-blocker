@@ -49,5 +49,6 @@ npm start
 # 로컬 개발용
 REACT_APP_API_URL=http://localhost:8000
 
-# 배포 서버용
-REACT_APP_API_URL=https://file-extension-back.onrender.com
+배포 주소
+	•	프론트엔드: https://file-extension-blocker-front.onrender.com
+	•	백엔드: https://file-extension-back.onrender.com
