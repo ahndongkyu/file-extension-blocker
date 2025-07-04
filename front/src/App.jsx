@@ -33,7 +33,7 @@ function App() {
   // 초기 확장자 목록
   useEffect(() => {
     axios
-      .get('http://localhost:8000/extensions')
+      .get(`${process.env.REACT_APP_API_URL}/extensions`)
       .then((res) => {
         const fixed = res.data.fixed;
         const custom = res.data.custom;
@@ -69,7 +69,9 @@ function App() {
     setSelectedFixed(updated);
 
     axios
-      .patch('http://localhost:8000/extensions/fixed', { selected: updated })
+      .patch(`${process.env.REACT_APP_API_URL}/extensions/fixed`, {
+        selected: updated,
+      })
       .then(() => {
         const msg = selectedFixed.includes(ext)
           ? `"${ext}" 확장자 차단 해제됨.`
@@ -102,7 +104,9 @@ function App() {
     }
 
     axios
-      .post('http://localhost:8000/extensions/custom', { extension: trimmed })
+      .post(`${process.env.REACT_APP_API_URL}/extensions/custom`, {
+        extension: trimmed,
+      })
       .then(() => {
         setCustomTags((prev) => [...prev, trimmed]);
         setCustomInput('');
@@ -115,7 +119,7 @@ function App() {
   // 커스텀 확장자 삭제
   const handleDeleteTag = (ext) => {
     axios
-      .delete(`http://localhost:8000/extensions/custom/${ext}`)
+      .delete(`${process.env.REACT_APP_API_URL}/extensions/custom/${ext}`)
       .then(() => {
         setCustomTags((prev) => prev.filter((e) => e !== ext));
       })
